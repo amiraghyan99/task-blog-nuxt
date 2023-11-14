@@ -6,6 +6,7 @@ const { register } = useAuth();
 
 const data = reactive({
   name: "",
+  last_name: "",
   email: "",
   password: "",
   password_confirmation: "",
@@ -38,6 +39,19 @@ const {
           class="block mt-1 w-full"
           v-model="data.name"
           :errors="errors.name"
+          required
+          autoFocus
+        />
+      </div>
+      <!--Last Name -->
+      <div>
+        <Label for="last_name">Last Name</Label>
+        <Input
+          id="last_name"
+          type="text"
+          class="block mt-1 w-full"
+          v-model="data.last_name"
+          :errors="errors.last_name"
           required
           autoFocus
         />

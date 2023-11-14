@@ -21,6 +21,8 @@ const open = ref(false);
           <!-- Navigation Links  -->
           <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
             <NavigationLink href="/dashboard"> Dashboard </NavigationLink>
+            <NavigationLink href="/news"> News </NavigationLink>
+            <NavigationLink href="/blogs"> Blogs </NavigationLink>
           </div>
         </div>
 
