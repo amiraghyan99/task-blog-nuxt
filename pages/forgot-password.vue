@@ -1,27 +1,28 @@
 <script setup lang="ts">
-definePageMeta({ middleware: ["guest"] });
+definePageMeta({middleware: ["guest"]});
 
-const { forgotPassword } = useAuth();
+const {forgotPassword} = useAuth();
 
 const email = ref("");
 const resetEmailSent = ref(false);
 const status = ref("");
 
 const {
+  data,
   submit,
   inProgress,
   validationErrors: errors,
 } = useSubmit(
-  () => {
-    status.value = "";
-    return forgotPassword(email.value);
-  },
-  {
-    onSuccess: (result) => {
-      status.value = result?.status ?? "";
-      resetEmailSent.value = true;
+    () => {
+      status.value = "";
+      return forgotPassword(email.value);
     },
-  }
+    {
+      onSuccess: (result) => {
+        status.value = result?.status ?? "";
+        resetEmailSent.value = true;
+      },
+    }
 );
 </script>
 
@@ -29,7 +30,7 @@ const {
   <AuthCard>
     <template #logo>
       <NuxtLink to="/">
-        <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
+        <ApplicationLogo class="w-20 h-20 fill-current text-gray-500"/>
       </NuxtLink>
     </template>
 
@@ -40,21 +41,21 @@ const {
     </div>
 
     <!-- Session Status -->
-    <AuthSessionStatus class="mb-4" :status="status" />
+    <AuthSessionStatus class="mb-4" :status="status"/>
 
     <form @submit.prevent="submit">
       <!-- Email Address -->
       <div>
         <Label for="email">Email</Label>
         <Input
-          id="email"
-          type="email"
-          class="block mt-1 w-full"
-          v-model="email"
-          :errors="errors.email"
-          :disabled="resetEmailSent"
-          required
-          autoFocus
+            id="email"
+            type="email"
+            class="block mt-1 w-full"
+            v-model="email"
+            :errors="errors.email"
+            :disabled="resetEmailSent"
+            required
+            autoFocus
         />
       </div>
 

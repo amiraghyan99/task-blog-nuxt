@@ -5,7 +5,7 @@ const router = useRouter();
 const route = useRoute();
 const {login} = useAuth();
 
-const data = reactive({
+const form = ref({
   email: "",
   password: "",
   remember: false,
@@ -21,7 +21,7 @@ const {
 } = useSubmit(
     () => {
       status.value = "";
-      return login(data);
+      return login(form.value);
     },
     {
       onSuccess: () => navigateTo('dashboard', {replace: true}),
@@ -48,7 +48,7 @@ const {
             id="email"
             type="email"
             class="block mt-1 w-full"
-            v-model="data.email"
+            v-model="form.email"
             :errors="errors.email?.[0]"
             required
             autoFocus
@@ -62,7 +62,7 @@ const {
             id="password"
             type="password"
             class="block mt-1 w-full"
-            v-model="data.password"
+            v-model="form.password"
             :errors="errors.password"
             required
             autoComplete="current-password"
@@ -77,7 +77,7 @@ const {
               type="checkbox"
               name="remember"
               class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              v-model="data.remember"
+              v-model="form.remember"
           />
           <span class="ml-2 text-sm text-gray-600"> Remember me </span>
         </label>

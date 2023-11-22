@@ -3,8 +3,7 @@ import {parseCookies} from "h3";
 
 const CSRF_COOKIE = "XSRF-TOKEN";
 const CSRF_HEADER = "X-XSRF-TOKEN";
-
-export const $larafetch = $fetch.create({
+export const $laraFetch = $fetch.create({
     credentials: "include",
     async onRequest({request, options}) {
         const {backendUrl, frontendUrl} = useRuntimeConfig().public;
@@ -45,8 +44,9 @@ export const $larafetch = $fetch.create({
         options.baseURL = backendUrl;
     },
     async onResponseError({response}) {
+
         if ([500].includes(response.status)) {
-            console.error("[Laravel Error]", response.statusText, response._data);
+            console.error("[Laravel Error from $laraFetch]", response, response._data);
         }
         if ([419].includes(response.status)) {
             await refreshCsrf()

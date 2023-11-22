@@ -3,6 +3,7 @@
     <Head>
       <Title>Laravel</Title>
     </Head>
+    <ErrorToast/>
 
     <slot />
   </div>
