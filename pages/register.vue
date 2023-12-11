@@ -4,7 +4,7 @@ definePageMeta({ middleware: ["guest"] });
 const router = useRouter();
 const { register } = useAuth();
 
-const data = reactive({
+const form = reactive({
   name: "",
   last_name: "",
   email: "",
@@ -16,7 +16,7 @@ const {
   submit,
   inProgress,
   validationErrors: errors,
-} = useSubmit(() => register(data), {
+} = useSubmit(() => register(form), {
   onSuccess: () => router.push("/dashboard"),
 });
 </script>
@@ -37,7 +37,7 @@ const {
           id="name"
           type="text"
           class="block mt-1 w-full"
-          v-model="data.name"
+          v-model="form.name"
           :errors="errors.name"
           required
           autoFocus
@@ -50,7 +50,7 @@ const {
           id="last_name"
           type="text"
           class="block mt-1 w-full"
-          v-model="data.last_name"
+          v-model="form.last_name"
           :errors="errors.last_name"
           required
           autoFocus
@@ -64,7 +64,7 @@ const {
           id="email"
           type="email"
           class="block mt-1 w-full"
-          v-model="data.email"
+          v-model="form.email"
           :errors="errors.email"
           required
         />
@@ -77,7 +77,7 @@ const {
           id="password"
           type="password"
           class="block mt-1 w-full"
-          v-model="data.password"
+          v-model="form.password"
           :errors="errors.password"
           required
           autoComplete="new-password"
@@ -91,7 +91,7 @@ const {
           id="password_confirmation"
           type="password"
           class="block mt-1 w-full"
-          v-model="data.password_confirmation"
+          v-model="form.password_confirmation"
           :errors="errors.password_confirmation"
           required
         />

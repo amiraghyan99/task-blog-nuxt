@@ -1,5 +1,3 @@
-import {$fetch, FetchError} from "ofetch";
-import {parseCookies} from "h3";
 
 const CSRF_COOKIE = "XSRF-TOKEN";
 const CSRF_HEADER = "X-XSRF-TOKEN";
@@ -7,7 +5,9 @@ export const $laraFetch = $fetch.create({
     credentials: "include",
     async onRequest({request, options}) {
         const {backendUrl, frontendUrl} = useRuntimeConfig().public;
+
         const event = process.nitro ? useEvent() : null;
+
         let token = event
             ? parseCookies(event)[CSRF_COOKIE]
             : useCookie(CSRF_COOKIE).value;
@@ -52,6 +52,12 @@ export const $laraFetch = $fetch.create({
             await refreshCsrf()
         }
     },
+    async onRequestError() {
+        // throw createError({
+        //     statusMessage: "Something went wrong",
+        //     statusCode: 503
+        // })
+    }
 });
 
 async function initCsrf() {

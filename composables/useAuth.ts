@@ -12,9 +12,9 @@ export type LoginCredentials = {
     email: string;
     password: string;
 };
-export type ChangeEmail = {
+export type ChangeEmail = Ref<{
     email: string;
-};
+}>;
 
 export type RegisterCredentials = {
     name: string;
@@ -32,17 +32,15 @@ export type ResetPasswordCredentials = {
 };
 
 // Value is initialized in: ~/plugins/auth.ts
-export const useUser = <T = User>() => {
-    return useState<T | undefined | null>("user", () => undefined);
-};
+
 
 export const useAuth = <T = User>() => {
     const router = useRouter();
 
-    const user = useUser<T>();
+    const user = useUserStore<T>();
     const isLoggedIn = computed(() => !!user.value);
 
-    async function refresh() {
+    async function setUser() {
         try {
             user.value = await fetchCurrentUser();
         } catch {
@@ -54,16 +52,16 @@ export const useAuth = <T = User>() => {
         if (isLoggedIn.value) return;
 
         await $laraFetch("/login", {method: "post", body: credentials});
-        await refresh();
+        await setUser();
     }
 
-    async function changeEmail(email: ChangeEmail) {
-        await $laraFetch<{ status: string }>("/change-email", {method: "post", body: email});
+    async function changeEmail(form: { email: string | undefined }) {
+        await $laraFetch<{ status: string }>("/change-email", {method: "post", body: form});
     }
 
     async function register(credentials: RegisterCredentials) {
         await $laraFetch("/register", {method: "post", body: credentials});
-        await refresh();
+        await setUser();
     }
 
     async function resendEmailVerification() {
@@ -103,7 +101,7 @@ export const useAuth = <T = User>() => {
         logout,
         forgotPassword,
         resetPassword,
-        refresh,
+        setUser
     };
 };
 
@@ -111,7 +109,7 @@ export const fetchCurrentUser = async <T = User>() => {
     try {
         return await $laraFetch<T>("/api/user");
     } catch (error: any) {
-        if ([401, 419].includes(error?.response?.status)) return null;
+        if ([401, 419].includes(error?.response?.status)) return;
         throw error;
     }
 };

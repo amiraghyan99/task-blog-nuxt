@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type {User} from "~/composables/useAuth";
+
 definePageMeta({middleware: ["guest"]});
 
 const router = useRouter();
@@ -39,7 +41,6 @@ const {
 
     <!-- Session Status -->
     <AuthSessionStatus class="mb-4" :status="status"/>
-
     <form @submit.prevent="submit">
       <!-- Email Address -->
       <div>

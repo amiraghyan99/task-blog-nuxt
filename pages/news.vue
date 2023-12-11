@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
+
 </script>
 
 <template>
   <NuxtLayout name="app-layout">
     <Head>
-      <Title>Laravel - News</Title>
+      <Title>News</Title>
     </Head>
 
     <template #header>

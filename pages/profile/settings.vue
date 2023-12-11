@@ -1,18 +1,16 @@
 <script setup lang="ts">
+import type {User} from "~/composables/useAuth";
+
 definePageMeta({middleware: ["auth"]});
 
 
 const router = useRouter();
 const route = useRoute();
-const {changeEmail} = useAuth();
+const {changeEmail, user} = useAuth();
 
 const form = ref({
-  email: ""
+  email: user.value?.email
 });
-
-const status = ref(
-    (route.query.reset ?? "").length > 0 ? atob(route.query.reset as string) : ""
-);
 
 const {
   submit,
@@ -20,8 +18,9 @@ const {
   validationErrors: errors,
 } = useSubmit(
     () => {
-      status.value = "";
-      return changeEmail(form.value);
+
+      console.log(form.value)
+      return changeEmail(form.value)
     },
     {
       onError: (error) => console.log(error),

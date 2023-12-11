@@ -3,15 +3,19 @@ import {defineNuxtConfig} from "nuxt/config";
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
     ssr: true,
-    modules: ["@nuxtjs/tailwindcss"],
+    modules: [
+        "@nuxtjs/tailwindcss",
+        '@pinia/nuxt',
+    ],
     runtimeConfig: {
         public: {
             backendUrl: "http://localhost:8000",
             frontendUrl: "http://localhost:3000",
+            appName: process.env.NUXT_PUBLIC_APP_NAME ?? "NUXT"
         },
     },
     imports: {
-        dirs: ["./utils"],
+        dirs: ["./utils", "./stores"],
     },
     experimental: {
         asyncContext: true,
@@ -21,5 +25,5 @@ export default defineNuxtConfig({
     },
     devtools: {
         enabled: true
-    }
+    },
 });

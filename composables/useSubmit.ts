@@ -13,9 +13,9 @@ export function useSubmit<T>(
     const error = ref<Error | null>(null);
     const inProgress = ref(false);
     const succeeded = ref<Boolean | null>(null);
-    const data = ref<T | undefined>(); // Include data as a ref
+    const data = ref<T | null>(); // Include data as a ref
 
-    async function submit() {
+    async function submit(): Promise<T | undefined> {
         validationErrors.value = {};
         error.value = null;
         inProgress.value = true;
@@ -28,7 +28,6 @@ export function useSubmit<T>(
             data.value = result
             return result;
         } catch (e: any) {
-            console.log("999999999999999999999", e)
             error.value = e;
             succeeded.value = false;
             options?.onError?.(e);
